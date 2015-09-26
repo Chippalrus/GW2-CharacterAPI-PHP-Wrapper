@@ -3,8 +3,11 @@ require_once( __DIR__ . '/parallelcurl.php' );
 require_once( __DIR__ . '/CCache.php' );
 require_once( __DIR__ . '/Enum.php' );
 //=========================================================================================
-//	CGW2API  by Chippalrus
+//	CGW2API by Chippalrus
 //=========================================================================================
+/*
+	Handler for Items
+*/
 class CGW2API extends CCache
 {
 //=========================================================================================
@@ -27,7 +30,7 @@ class CGW2API extends CCache
 		unset( $this->m_Content );
 	}
 	
-	public	function	CleaUp()
+	protected	function	CleaUp()
 	{
 		unset( $this->m_Content );
 		$this->m_Content = Array();
@@ -105,12 +108,12 @@ class CGW2API extends CCache
 //=========================================================================================
 //	Functions
 //=========================================================================================
-	public	function	RequestCompleted( $content, $url, $ch, $search )
+	private	function	RequestCompleted( $content, $url, $ch, $search )
 	{
 		array_push( $this->m_Content, $content );
 	}
 
-	public	function	SendRequest( $iID, $eURI )
+	private	function	SendRequest( $iID, $eURI )
 	{
 		$this->m_ParallelCurl->startRequest
 		(
@@ -120,7 +123,7 @@ class CGW2API extends CCache
 		$this->m_ParallelCurl->finishAllRequests();
 	}
 	
-	public	function	SendRequestList( $iID, $eURI )
+	private	function	SendRequestList( $iID, $eURI )
 	{
 		for( $i = 0; $i < count( $iID ); $i++ )
 		{
