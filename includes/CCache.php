@@ -14,7 +14,7 @@ class CCache
 //=========================================================================================
 //	Constructor / Destructor
 //=========================================================================================
-	public	function	__construct		( $sDir )
+	protected	function	__construct		( $sDir )
 	{
 		if( !is_dir( __DIR__ . DIRECTORY_SEPARATOR . $sDir ) )
 		{
