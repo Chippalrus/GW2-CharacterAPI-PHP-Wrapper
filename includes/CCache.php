@@ -1,6 +1,6 @@
 <?php
 //=========================================================================================
-//	CCache by Chippalrus
+//	CCache
 //=========================================================================================
 /*
 	Handler for Caching files
@@ -11,7 +11,6 @@ class CCache
 //	Members
 //=========================================================================================
 	private		$m_CacheDir;		// Directory for Caching
-	private		$m_CacheTime;		// 
 //=========================================================================================
 //	Constructor / Destructor
 //=========================================================================================
@@ -22,7 +21,6 @@ class CCache
 			mkdir( __DIR__ . DIRECTORY_SEPARATOR . $sDir, 0755 );
 		}
 		$this->m_CacheDir = __DIR__ . '/' . $sDir . '/';
-		$this->m_CacheTime = false;
 	}
 	
 	public	function	__destruct()
@@ -33,15 +31,13 @@ class CCache
 //	Get
 //=========================================================================================
 	public	function	GetDirectory	()	{	return $this->m_CacheDir;	}
-	public	function	GetCacheTimeOut	()	{	return $this->m_CacheTime;	}
 //=========================================================================================
 //	Set
 //=========================================================================================
-	public	function	SetDirectory	(	$sDir	)	{	$this->m_CacheDir	=	$sDir;		}
 //=========================================================================================
 //	Methods
 //=========================================================================================
-	public	function	WriteCache		( $sFileName, $sContent, $eURI )
+	protected	function	WriteCache		( $sFileName, $sContent, $eURI )
 	{
 		if( !is_dir( $this->m_CacheDir . $eURI ) )
 		{
@@ -61,7 +57,7 @@ class CCache
 		}
 	}
 	
-	public	function	GetCache( $sFileName, $eURI )
+	protected	function	GetCache( $sFileName, $eURI )
 	{
 		$aTemp = 0;
 		if( file_exists( $this->m_CacheDir . $eURI . $sFileName ) )
@@ -76,7 +72,7 @@ class CCache
 		return $aTemp;
 	}
 
-	public	function	IsExpired( $sFileName, $eURI )
+	protected	function	IsExpired( $sFileName, $eURI )
 	{
 		$bExpired = true;
 		$sFile = $this->m_CacheDir . $eURI . $sFileName;
