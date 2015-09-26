@@ -18,7 +18,7 @@ class CGW2API extends CCache
 //=========================================================================================
 //	Constructor / Destructor / Clean Up
 //=========================================================================================
-	public	function	__construct		( $iParallelProcesses )
+	protected	function	__construct		( $iParallelProcesses )
 	{
 		$this->m_ParallelCurl		=	new ParallelCurl( $iParallelProcesses );
 		parent::__construct( 'api_cache' );
