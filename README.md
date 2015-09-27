@@ -10,7 +10,11 @@ My focus was to share my character's Builds/Equipment via a single URL without n
 This is just the *backend* of the project that I have built. I am aware of what is currently avaliable, however, I do not want to include methods I wont be using from other wrappers.
 
 # Features
-
-### Caching
-### API Request calls
-### Character Data
+## Caching
+- Requested information is cached automatically with no duplication.
+## API Request calls
+- API requests will check for cached file before making calls.
+- Requests can be single or in batches.
+## Character Data
+- Grabs Character Equipment and Specialization setup.
+- Calculates *Equipment / Upgrades / Infusions* into attributes.
