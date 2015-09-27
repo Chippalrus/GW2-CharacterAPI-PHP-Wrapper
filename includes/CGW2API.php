@@ -108,21 +108,33 @@ class CGW2API extends CCache
 		return $this->m_Content;
 	}
 	
-	public	function	GetCharacter( $sName, $sToken )	// json
+	//		For getting specific Character data -- json
+	public	function	GetCharacter( $sName, $sToken )
 	{
+		//	Clear the content ParallelCurl callback sets.
 		$this->CleaUp();
-		if( $this->IsExpired( $sName, EURI::CHARACTERS ) )
+		// Checks for valid input
+		if( !is_null( $sName ) )
 		{
-			if( !is_null( $sName ) && !is_null( $sToken ) )
+			// Check if Cache is expired
+			if( $this->IsExpired( $sName, EURI::CHARACTERS ) )
 			{
-				$this->SendRequest( $sToken, EURI::CHARACTERS . '/' . $sName . EURI::ACCESS_TOKEN );
-				$this->WriteCache( $sName, $this->m_Content[ 0 ], EURI::CHARACTERS );
+				// Check for valid token
+				if( !is_null( $sToken ) )
+				{
+					// Request for character data and write cache
+					$this->SendRequest( $sToken, EURI::CHARACTERS . '/' . $sName . EURI::ACCESS_TOKEN );
+					// Should have something here for uhhh.... if it returns valid data
+					$this->WriteCache( $sName, $this->m_Content[ 0 ], EURI::CHARACTERS );
+				} else { echo '0: Token is empty.' }
+			}
+			else	
+			{
+				// If cache exists use cache data instead.
+				array_push( $this->m_Content, $this->GetCache( $sName, EURI::CHARACTERS ) );
 			}
 		}
-		else	
-		{
-			array_push( $this->m_Content, $this->GetCache( $sName, EURI::CHARACTERS ) );
-		}
+		// Returns Cache or Requested data
 		return $this->m_Content[ 0 ];
 	}
 //=========================================================================================
