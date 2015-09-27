@@ -12,9 +12,11 @@ This is just the *backend* of the project that I have built. I am aware of what 
 # Features
 ## Caching
 - Requested information is cached automatically with no duplication.
+
 ## API Request calls
 - API requests will check for cached file before making calls.
 - Requests can be single or in batches.
+
 ## Character Data
 - Grabs Character Equipment and Specialization setup.
 - Calculates *Equipment / Upgrades / Infusions* into attributes.
