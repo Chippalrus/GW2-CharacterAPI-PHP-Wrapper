@@ -9,14 +9,14 @@ I disliked GW2 web-apps that were available at the time, so, I made my own. My f
 This is just the *backend* of the project that I have built. I am aware of what is currently avaliable, however, I do not want to include methods I wont be using from other wrappers. ˶⚈Ɛ⚈˵
 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-## Caching
+## (ﾉﾟ▽ﾟ)ﾉ︵ Caching
 - Requested information is cached automatically with no duplication.
 
-## API Request calls
+## (ﾉﾟ▽ﾟ)ﾉ︵ API Request calls
 - API requests will check for cached file before making calls.
 - Requests can be single or in batches.
 
-## Character Data
+## (ﾉﾟ▽ﾟ)ﾉ︵ Character Data
 - Grabs Character Equipment and Specialization setup.
 - Calculates *Equipment / Upgrades / Infusions* into attributes. 
 - This also fixes some of its "description" attributes and places them into "attributes".
