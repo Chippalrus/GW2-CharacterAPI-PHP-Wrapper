@@ -38,18 +38,19 @@ class CCharacter extends CGW2API
 //=========================================================================================
 //	Get
 //=========================================================================================
-	public	function	GetName		(){	return $this->m_CharacterData->{	'name'		};	}
-	public	function	GetRace		(){	return $this->m_CharacterData->{	'race' 		};	}
-	public	function	GetGender	(){	return $this->m_CharacterData->{	'gender' 	};	}
-	public	function	GetProfession	(){	return $this->m_CharacterData->{	'profession' 	};	}
-	public	function	GetLevel	(){	return $this->m_CharacterData->{	'level' 	};	}
-	public	function	GetAge		(){	return $this->m_CharacterData->{	'age' 		};	}
-	public	function	GetDeaths	(){	return $this->m_CharacterData->{	'deaths' 	};	}
+	public	function	GetName			(){		return $this->m_CharacterData->{	'name'		};	}
+	public	function	GetRace			(){		return $this->m_CharacterData->{	'race' 		};	}
+	public	function	GetGender		(){		return $this->m_CharacterData->{	'gender' 	};	}
+	public	function	GetProfession		(){		return $this->m_CharacterData->{	'profession' 	};	}
+	public	function	GetLevel		(){		return $this->m_CharacterData->{	'level' 	};	}
+	public	function	GetAge			(){		return $this->m_CharacterData->{	'age' 		};	}
+	public	function	GetDeaths		(){		return $this->m_CharacterData->{	'deaths' 	};	}
 	
-	public	function	GetEquipments		( $eType, $eEquipment )		{	return $this->m_Equipments[ $eType ][ $eEquipment ];		}
-	public	function	GetSpecializations	( $eSpecialization, $eTrait )	{	return $this->m_Specializations[ $eSpecialization ][ $eTrait ];	}
-	public	function	GetAttribute		( $eAttribute )			{	return	$this->m_CharacterAttri[ $eAttribute ];			}
-	
+	public	function	GetEquipments		()						{	return $this->m_Equipments;	}
+	public	function	GetEquipment		( $eType, $eEquipment )	{	return $this->m_Equipments[ $eType ][ $eEquipment ];	}
+	public	function	GetSpecialization	( $eSpecialization )	{	return $this->m_Specializations[ $eSpecialization ];	}
+	public	function	GetTraits		( $sMode, $Spec )	{	return $this->m_CharacterData->{ 'specializations' }->{ $sMode }[ $Spec ]; }
+	public	function	GetAttribute		( $eAttribute, $sMode, $set ){	return	$this->m_CharacterAttri[ $sMode ][ $set ][ $eAttribute ];	}
 	public	function	GetSlotIndex( $sSlot )
 	{
 		$tehSlot = 99;
