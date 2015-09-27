@@ -2,9 +2,6 @@
 //=========================================================================================
 //	CCache by Chippalrus
 //=========================================================================================
-/*
-	Handler for Caching files
-*/
 class CCache
 {
 //=========================================================================================
@@ -16,10 +13,13 @@ class CCache
 //=========================================================================================
 	protected	function	__construct		( $sDir )
 	{
+		// Check for existing directory
 		if( !is_dir( __DIR__ . DIRECTORY_SEPARATOR . $sDir ) )
 		{
+			// Create directory if it doesn't exist
 			mkdir( __DIR__ . DIRECTORY_SEPARATOR . $sDir, 0755 );
 		}
+		// Set directory
 		$this->m_CacheDir = __DIR__ . '/' . $sDir . '/';
 	}
 	
@@ -37,15 +37,20 @@ class CCache
 //=========================================================================================
 //	Methods
 //=========================================================================================
+	// Write cache file
 	protected	function	WriteCache		( $sFileName, $sContent, $eURI )
 	{
+		// Check for existing directory to write to
 		if( !is_dir( $this->m_CacheDir . $eURI ) )
 		{
+			// Create folder if it doesn't exist
 			mkdir( $this->m_CacheDir . $eURI, 0755 );
 		}
 		
+		// checks for valid input
 		if( isset( $sFileName ) )
 		{
+			// Write to directory
 			$writeJson = fopen( $this->m_CacheDir . $eURI . $sFileName, 'w' );
 			fwrite( $writeJson, $sContent );
 			fclose( $writeJson );
@@ -57,27 +62,33 @@ class CCache
 		}
 	}
 	
+	// Gets the cache file
 	protected	function	GetCache( $sFileName, $eURI )
 	{
-		$aTemp = 0;
+		$sTemp;
+		// Checks if file exists
 		if( file_exists( $this->m_CacheDir . $eURI . $sFileName ) )
 		{
-			$aFileSize = filesize( $this->m_CacheDir . $eURI . $sFileName );
+			// Read the file
 			$aFile = fopen( $this->m_CacheDir . $eURI . $sFileName, 'r' );
-			$aTemp = fgets( $aFile );
+			// Get the file contents
+			$sTemp = fgets( $aFile );
 			fclose( $aFile );
 		}
-		else	{	$aTemp = 0;		}
+		else	{	$sTemp = 'error';		}
 		
-		return $aTemp;
+		return $sTemp;
 	}
 
+	// Checks if file is 7 hours old -- boolean ( Should make this customizeable )
 	protected	function	IsExpired( $sFileName, $eURI )
 	{
 		$bExpired = true;
 		$sFile = $this->m_CacheDir . $eURI . $sFileName;
+		// Check if the file exists
 		if( file_exists( $sFile ) )
 		{
+			// Checks to see if the file is within the time
 			if( filemtime( $sFile ) > strtotime( '-7 hours' ) )
 			{
 				$bExpired = false;
