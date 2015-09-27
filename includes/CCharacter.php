@@ -38,13 +38,13 @@ class CCharacter extends CGW2API
 //=========================================================================================
 //	Get
 //=========================================================================================
-	public	function	GetName					(){		return $this->m_CharacterData->{	'name'				};	}
-	public	function	GetRace					(){		return $this->m_CharacterData->{	'race' 				};	}
-	public	function	GetGender				(){		return $this->m_CharacterData->{	'gender' 			};	}
-	public	function	GetProfession			(){		return $this->m_CharacterData->{	'profession' 		};	}
-	public	function	GetLevel				(){		return $this->m_CharacterData->{	'level' 			};	}
-	public	function	GetAge					(){		return $this->m_CharacterData->{	'age' 				};	}
-	public	function	GetDeaths				(){		return $this->m_CharacterData->{	'deaths' 			};	}
+	public	function	GetName		(){	return $this->m_CharacterData->{	'name'		};	}
+	public	function	GetRace		(){	return $this->m_CharacterData->{	'race' 		};	}
+	public	function	GetGender	(){	return $this->m_CharacterData->{	'gender' 	};	}
+	public	function	GetProfession	(){	return $this->m_CharacterData->{	'profession' 	};	}
+	public	function	GetLevel	(){	return $this->m_CharacterData->{	'level' 	};	}
+	public	function	GetAge		(){	return $this->m_CharacterData->{	'age' 		};	}
+	public	function	GetDeaths	(){	return $this->m_CharacterData->{	'deaths' 	};	}
 //=========================================================================================
 //	Set
 //=========================================================================================	
