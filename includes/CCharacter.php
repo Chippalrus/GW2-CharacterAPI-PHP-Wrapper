@@ -45,6 +45,41 @@ class CCharacter extends CGW2API
 	public	function	GetLevel	(){	return $this->m_CharacterData->{	'level' 	};	}
 	public	function	GetAge		(){	return $this->m_CharacterData->{	'age' 		};	}
 	public	function	GetDeaths	(){	return $this->m_CharacterData->{	'deaths' 	};	}
+	
+	public	function	GetSlotIndex( $sSlot )
+	{
+		$tehSlot = 99;
+		switch( $sSlot )
+		{
+			case 'WeaponA1':	$tehSlot = EEquipment::A1;	break;
+			case 'WeaponA2':	$tehSlot = EEquipment::A2;	break;
+			case 'WeaponB1':	$tehSlot = EEquipment::B1;	break;
+			case 'WeaponB2':	$tehSlot = EEquipment::B2;	break;
+			
+			case 'Helm':		$tehSlot = EEquipment::HELM;		break;
+			case 'Shoulders':	$tehSlot = EEquipment::SHOULDERS;	break;
+			case 'Coat':		$tehSlot = EEquipment::COAT;		break;
+			case 'Gloves':		$tehSlot = EEquipment::GLOVES;		break;
+			case 'Leggings':	$tehSlot = EEquipment::LEGGINGS;	break;
+			case 'Boots':		$tehSlot = EEquipment::BOOTS;		break;
+			
+			case 'Backpack':	$tehSlot = EEquipment::BACKPACK;	break;
+			case 'Amulet':		$tehSlot = EEquipment::AMULET;		break;
+			case 'Ring1':		$tehSlot = EEquipment::RING1;		break;
+			case 'Ring2':		$tehSlot = EEquipment::RING2;		break;
+			case 'Accessory1':	$tehSlot = EEquipment::ACCESSORY1;	break;
+			case 'Accessory2':	$tehSlot = EEquipment::ACCESSORY2;	break;
+			
+			case 'HelmAquatic':	$tehSlot = EEquipment::HELMAQUATIC;	break;
+			case 'WeaponAquaticA':	$tehSlot = EEquipment::AQUATIC_A;	break;
+			case 'WeaponAquaticB':	$tehSlot = EEquipment::AQUATIC_B;	break;
+			
+			case 'Pick':	$tehSlot = EEquipment::PICK;	break;
+			case 'Axe':	$tehSlot = EEquipment::AXE;	break;
+			case 'Sickle':	$tehSlot = EEquipment::SICKLE;	break;
+		}
+		return $tehSlot;
+	}
 //=========================================================================================
 //	Set
 //=========================================================================================	
@@ -138,7 +173,7 @@ class CCharacter extends CGW2API
 		$aEquipmentID[ EItemType::UPGRADES ] = $this->GetContentBatch( $aEquipmentID[ EItemType::UPGRADES ], EURI::ITEMS );
 		$aEquipmentID[ EItemType::INFUSIONS ] = $this->GetContentBatch( $aEquipmentID[ EItemType::INFUSIONS ], EURI::ITEMS );
 
-		//	Organize into Array 
+		//	Organize into Array
 		$mEquipments = Array();	
 		
 		// Equipment
@@ -157,7 +192,8 @@ class CCharacter extends CGW2API
 				if( $aEquipmentID[ EItemType::EQUIPMENT ][ $i ]->{ 'id' } == $tempEquipment->{ 'id' } )
 				{
 					// Store into its slot
-					$mEquipments[ EItemType::EQUIPMENT ][ $tempEquipment->{ 'slot' } ] = $aEquipmentID[ EItemType::EQUIPMENT ][ $i ];
+					$iSlot = $this->GetSlotIndex( $tempEquipment->{ 'slot' } );
+					$mEquipments[ EItemType::EQUIPMENT ][ $iSlot ] = $aEquipmentID[ EItemType::EQUIPMENT ][ $i ];
 				}
 			}
 		}
@@ -178,19 +214,20 @@ class CCharacter extends CGW2API
 					if( $aEquipmentID[ EItemType::UPGRADES ][ $i ]->{ 'id' } == $tempEquipment->{ 'upgrades' }[ $k ] )
 					{
 						// Store into its slot
-						if( is_null( $mEquipments[ EItemType::UPGRADES ][ $tempEquipment->{ 'slot' } ] ) )
+						$iSlot = $this->GetSlotIndex( $tempEquipment->{ 'slot' } );
+						if( is_null( $mEquipments[ EItemType::UPGRADES ][ $iSlot ] ) )
 						{
-							$mEquipments[ EItemType::UPGRADES ][ $tempEquipment->{ 'slot' } ] = $aEquipmentID[ EItemType::UPGRADES ][ $i ];
+							$mEquipments[ EItemType::UPGRADES ][ $iSlot ] = $aEquipmentID[ EItemType::UPGRADES ][ $i ];
 						}
 						// If the slot is already filled and of the same slot then it is likely a Two-handed weapon
-						else if( $tempEquipment->{ 'slot' } == 'WeaponA1' )
+						else if( $iSlot == EEquipment::A1 )
 						{
 							// Store it into the weapon 2 slot instead
-							$mEquipments[ EItemType::UPGRADES ][ 'WeaponA2' ] = $aEquipmentID[ EItemType::UPGRADES ][ $i ];
+							$mEquipments[ EItemType::UPGRADES ][ EEquipment::A2 ] = $aEquipmentID[ EItemType::UPGRADES ][ $i ];
 						}
-						else if( $tempEquipment->{ 'slot' } == 'WeaponB1' )
+						else if( $iSlot == EEquipment::B1 )
 						{
-							$mEquipments[ EItemType::UPGRADES ][ 'WeaponB2' ] = $aEquipmentID[ EItemType::UPGRADES ][ $i ];	
+							$mEquipments[ EItemType::UPGRADES ][ EEquipment::B2 ] = $aEquipmentID[ EItemType::UPGRADES ][ $i ];	
 						}
 					}
 				}
@@ -213,19 +250,20 @@ class CCharacter extends CGW2API
 					if( $aEquipmentID[ EItemType::INFUSIONS ][ $i ]->{ 'id' } == $tempEquipment->{ 'infusions' }[ $k ] )
 					{
 						// Store into its slot
-						if( is_null( $mEquipments[ EItemType::INFUSIONS ][ $tempEquipment->{ 'slot' } ] ) )
+						$iSlot = $this->GetSlotIndex( $tempEquipment->{ 'slot' } );
+						if( is_null( $mEquipments[ EItemType::INFUSIONS ][ $iSlot ] ) )
 						{
-							$mEquipments[ EItemType::INFUSIONS ][ $tempEquipment->{ 'slot' } ] = $aEquipmentID[ EItemType::INFUSIONS ][ $i ];
+							$mEquipments[ EItemType::INFUSIONS ][ $iSlot ] = $aEquipmentID[ EItemType::INFUSIONS ][ $i ];
 						}
 						// If the slot is already filled and of the same slot then it is likely a Two-handed weapon
-						else if( $tempEquipment->{ 'slot' } == 'WeaponA1' )
+						else if( $iSlot == EEquipment::A1 )
 						{
 							// Store it into the weapon 2 slot instead
-							$mEquipments[ EItemType::INFUSIONS ][ 'WeaponA2' ] = $aEquipmentID[ EItemType::INFUSIONS ][ $i ];
+							$mEquipments[ EItemType::INFUSIONS ][ EEquipment::A2 ] = $aEquipmentID[ EItemType::INFUSIONS ][ $i ];
 						}
-						else if( $tempEquipment->{ 'slot' } == 'WeaponB1' )
+						else if( $iSlot == EEquipment::B1 )
 						{
-							$mEquipments[ EItemType::INFUSIONS ][ 'WeaponB2' ] = $aEquipmentID[ EItemType::INFUSIONS ][ $i ];	
+							$mEquipments[ EItemType::INFUSIONS ][ EEquipment::B2 ] = $aEquipmentID[ EItemType::INFUSIONS ][ $i ];	
 						}
 					}
 				}
