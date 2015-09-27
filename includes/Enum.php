@@ -10,11 +10,11 @@
 // URI for GW2API and Cache folders
 abstract class	EURI
 {
-	const	BASE				=	'https://api.guildwars2.com/v2/';
+	const	BASE			=	'https://api.guildwars2.com/v2/';
 	const	ACCESS_TOKEN		=	'?access_token=';
 	const	ITEMS			=	'items/';
 	const	TRAITS			=	'traits/';
-	const	SPECIALIZATIONS	=	'specializations/';
+	const	SPECIALIZATIONS		=	'specializations/';
 	const	CHARACTERS		=	'characters/';
 }
 ?>
