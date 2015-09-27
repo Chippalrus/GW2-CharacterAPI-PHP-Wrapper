@@ -46,6 +46,10 @@ class CCharacter extends CGW2API
 	public	function	GetAge		(){	return $this->m_CharacterData->{	'age' 		};	}
 	public	function	GetDeaths	(){	return $this->m_CharacterData->{	'deaths' 	};	}
 	
+	public	function	GetEquipments		( $eType, $eEquipment )		{	return $this->m_Equipments[ $eType ][ $eEquipment ];		}
+	public	function	GetSpecializations	( $eSpecialization, $eTrait )	{	return $this->m_Specializations[ $eSpecialization ][ $eTrait ];	}
+	public	function	GetAttribute		( $eAttribute )			{	return	$this->m_CharacterAttri[ $eAttribute ];			}
+	
 	public	function	GetSlotIndex( $sSlot )
 	{
 		$tehSlot = 99;
@@ -601,32 +605,30 @@ class CCharacter extends CGW2API
 			}
 		}
 	}
-//=========================================================================================
-//	Functions
-//=========================================================================================
-	public	function	AddAttribute( $sAttribute, $iValue, $set, $sMode )
+	
+	private	function	AddAttribute( $sAttribute, $iValue, $set, $sMode )
 	{
 		if( isset( $sAttribute ) && $iValue > 0 )
 		{
 			$eAttr = EAttribute::MAGICFIND;
 			switch( $sAttribute )
 			{
-				case 'Power':		$eAttr = EAttribute::POWER;	break;
+				case 'Power':		$eAttr = EAttribute::POWER;		break;
 				case 'Toughness':	$eAttr = EAttribute::TOUGHNESS;	break;
 				case 'Vitality':	$eAttr = EAttribute::VITALITY;	break;
 				case 'Precision':	$eAttr = EAttribute::PRECISION;	break;
 				
-				case 'Armor':		$eAttr = EAttribute::ARMOR;	break;
+				case 'Armor':		$eAttr = EAttribute::ARMOR;		break;
 				
 				case 'Ferocity':
-				case 'CritDamage':	$eAttr = EAttribute::FEROCITY;	break;
+				case 'CritDamage':		$eAttr = EAttribute::FEROCITY;		break;
 
 				case 'Condition Damage':
 				case 'ConditionDamage':	$eAttr = EAttribute::CONDIDAMAGE;	break;
 				
-				case 'Healing':		$eAttr = EAttribute::HEALPOWER;		break;
+				case 'Healing':			$eAttr = EAttribute::HEALPOWER;		break;
 				
-				case 'AgonyResist':	$eAttr = EAttribute::AGONYRESIST;	break;
+				case 'AgonyResist':		$eAttr = EAttribute::AGONYRESIST;	break;
 				
 				default:break;
 			}
@@ -639,7 +641,7 @@ class CCharacter extends CGW2API
 		}
 	}
 	
-	public	function	AddEquipmentToStats( &$aEquipment, $set, $sMode )
+	private	function	AddEquipmentToStats( &$aEquipment, $set, $sMode )
 	{
 		$aDetials = $aEquipment->{ 'details' };
 		if( !is_null( $aDetials->{ 'defense' } ) )
@@ -660,7 +662,9 @@ class CCharacter extends CGW2API
 			}
 		}
 	}
-	
+//=========================================================================================
+//	Functions
+//=========================================================================================
 	public	function	SetCharacterData( $sCharacterName, $sMode, $sAPIKey )
 	{
 		// Get Character Data
