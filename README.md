@@ -1,5 +1,5 @@
 # Guild Wars 2 API - Character - PHP
-- Uses ParallelCurl by petewarden ( https://github.com/petewarden/ParallelCurl ).
+- Uses ParallelCurl by petewarden ( https://github.com/petewarden/ParallelCurl )
 
 # Description
 I disliked GW2 web-apps that were available at the time so, I made my own.
