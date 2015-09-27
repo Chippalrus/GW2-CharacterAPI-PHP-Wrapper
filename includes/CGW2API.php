@@ -108,7 +108,7 @@ class CGW2API extends CCache
 //=========================================================================================
 //	Functions
 //=========================================================================================
-	private	function	RequestCompleted( $content, $url, $ch, $search )
+	public	function	RequestCompleted( $content, $url, $ch, $search )
 	{
 		array_push( $this->m_Content, $content );
 	}
