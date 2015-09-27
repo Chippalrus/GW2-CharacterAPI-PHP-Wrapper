@@ -138,7 +138,7 @@ class CCharacter extends CGW2API
 		$aEquipmentID[ EItemType::UPGRADES ] = $this->GetContentBatch( $aEquipmentID[ EItemType::UPGRADES ], EURI::ITEMS );
 		$aEquipmentID[ EItemType::INFUSIONS ] = $this->GetContentBatch( $aEquipmentID[ EItemType::INFUSIONS ], EURI::ITEMS );
 
-		//	Organize into Array for access via ENUM EEquipment
+		//	Organize into Array 
 		$mEquipments = Array();	
 		
 		// Equipment
