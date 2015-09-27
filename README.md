@@ -9,6 +9,6 @@ This is just the *backend* of the project that I have built. I am aware of what 
 
 # Features
 
-## Caching
-## API Request calls
-## Character Data
+### Caching
+### API Request calls
+### Character Data
