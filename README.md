@@ -19,4 +19,5 @@ This is just the *backend* of the project that I have built. I am aware of what 
 
 ## Character Data
 - Grabs Character Equipment and Specialization setup.
-- Calculates *Equipment / Upgrades / Infusions* into attributes.
+- Calculates *Equipment / Upgrades / Infusions* into attributes. 
+- This also fixes some of its "description" attributes and places them into "attributes".
