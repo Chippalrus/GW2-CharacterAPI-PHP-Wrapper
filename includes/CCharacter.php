@@ -232,16 +232,63 @@ class CCharacter extends CGW2API
 			}
 		}
 	}
+	
+	public	function	SetBuildData( $SpecMode )
+	{
+		// Get Specialization IDs of specific mode
+		$aSpecIDs = Array();
+		for( $i = 0; $i < count( $this->m_CharacterData->{ 'specializations' }->{ $SpecMode } ); $i++ )
+		{
+			array_push( $aSpecIDs, $this->m_CharacterData->{ 'specializations' }->{ $SpecMode }[ $i ]->{ 'id' } );
+		}
+		// Request for specialization data
+		$aSpecIDs = $this->GetContentBatch( $aSpecIDs, EURI::SPECIALIZATIONS );
+		
+		// Loop through each specialization
+		for( $i = ESpecialization::A; $i < ESpecialization::MAX; $i++ )
+		{
+			// decode the content and store it
+			$this->m_Specializations[ $i ][ ETrait::_S ] = json_decode( $aSpecIDs[ $i ] );
+			
+			$aTraitIDs = Array();
+			// Loop through max amount of traits
+			for( $j = ETrait::_0; $j < ETrait::MAX; $j++ )
+			{
+				if( $j < ETrait::_3 )
+				{
+					// Get the minor trait IDs
+					array_push( $aTraitIDs, $this->m_Specializations[ $i ][ ETrait::_S ]->{ 'minor_traits' }[ $j ] );
+				}
+				else
+				{
+					// Get the major trait IDs
+					array_push( $aTraitIDs, $this->m_Specializations[ $i ][ ETrait::_S ]->{ 'major_traits' }[ $j - 3 ] );
+				}
+			}
+
+			// Request for trait data
+			$aTraitIDs = $this->GetContentBatch( $aTraitIDs, EURI::TRAITS );
+			// Loop through max amount of traits ... again
+			for( $j = ETrait::_0; $j < ETrait::MAX; $j++ )
+			{
+				// Decode the content and store it
+				$this->m_Specializations[ $i ][ $j ] = json_decode( $aTraitIDs[ $j ] );
+			}
+		}
+	}
 //=========================================================================================
 //	Request functions
 //=========================================================================================
-	public	function	RequestCharacterInfo( $sCharacterName, $sAPIKey )
+	public	function	SetCharacterData( $sCharacterName, $sMode, $sAPIKey )
 	{
 		// Get Character Data
 		$CharData = $this->GetCharacter( $sCharacterName, $sAPIKey );	
 		$this->m_CharacterData	= json_decode( $CharData );
 
-		// Get Character Equipment and its Data
+		// Character Equipment and its Data
 		$this->SetEquipmentData();
+		
+		// Specialization and Trait Data based on wvw/pve/pvp
+		$this->SetBuildData( $sMode );
 	}
 }
