@@ -1,4 +1,4 @@
-# Guild Wars 2 API - Character - PHP Wrapper
+# Guild Wars 2 API - Character - PHP
 - Uses ParallelCurl by petewarden ( https://github.com/petewarden/ParallelCurl ).
 
 # Description
