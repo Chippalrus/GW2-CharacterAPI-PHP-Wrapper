@@ -314,9 +314,353 @@ class CCharacter extends CGW2API
 			}
 		}
 	}
+	public	function	CalculateCharacterAttributes( $sMode )
+	{
+		for( $i = 0; $i < 2; $i++ )
+		{
+			$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::POWER ]		= BaseAttributes::Power;
+			$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::TOUGHNESS ]	= BaseAttributes::Toughness;
+			$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::VITALITY ]		= BaseAttributes::Vitality;
+			$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::PRECISION ]	= BaseAttributes::Precision;
+			$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::CRITDAMAGE ]	= BaseAttributes::CriticalDamage;
+			
+			$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::ARMOR ]		= 0;
+			$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::CRITCHANCE ]	= 0;
+			$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::CONDIDAMAGE ]	= 0;
+			$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::HEALPOWER ]	= 0;
+			$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::CONDIDURA ]	= 0;
+			$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::BOONDURA ]		= 0;
+			$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::AGONYRESIST ]	= 0;
+			$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::MAGICFIND ]	= 0;
+		}
+		
+		// Armor
+		for( $i = EEquipment::HELM; $i < EEquipment::BACKPACK; $i++ )
+		{
+			$this->AddEquipmentToStats( $this->m_Equipments[ EItemType::EQUIPMENT ][ $i ], 2, $sMode );
+		}
+		$this->AddUpgradeComponent( EItemType::UPGRADES, EEquipment::HELM, EEquipment::BACKPACK, 2, $sMode );
+		$this->AddUpgradeComponent( EItemType::INFUSIONS, EEquipment::HELM, EEquipment::BACKPACK, 2, $sMode );
+	
+		// Trinkets - fixes ascended trinkets
+		for( $i = EEquipment::BACKPACK; $i < EEquipment::HELMAQUATIC; $i++ )
+		{
+			$this->AscendedTrinketRepair( $this->m_Equipments[ EItemType::EQUIPMENT ][ $i ] );
+			$this->AddEquipmentToStats( $this->m_Equipments[ EItemType::EQUIPMENT ][ $i ], 2, $sMode );
+		}
+		$this->AddUpgradeComponent( EItemType::UPGRADES, EEquipment::BACKPACK, EEquipment::HELMAQUATIC, 2, $sMode );
+		$this->AddUpgradeComponent( EItemType::INFUSIONS, EEquipment::BACKPACK, EEquipment::HELMAQUATIC, 2, $sMode );
+		
+		// Weapon
+		for( $i = EEquipment::A1; $i < EEquipment::HELM; $i++ )
+		{
+			if( $i < EEquipment::B1 )
+			{
+				$this->AddEquipmentToStats( $this->m_Equipments[ EItemType::EQUIPMENT ][ $i ], 0, $sMode );	
+			}
+			else {	$this->AddEquipmentToStats( $this->m_Equipments[ EItemType::EQUIPMENT ][ $i ], 1, $sMode );		}
+		}
+		$this->AddUpgradeComponent( EItemType::UPGRADES, EEquipment::A1, EEquipment::B1, 0, $sMode );
+		$this->AddUpgradeComponent( EItemType::INFUSIONS, EEquipment::A1, EEquipment::B1, 0, $sMode );
+		
+		$this->AddUpgradeComponent( EItemType::UPGRADES, EEquipment::B1, EEquipment::HELM, 1, $sMode );
+		$this->AddUpgradeComponent( EItemType::INFUSIONS, EEquipment::B1, EEquipment::HELM, 1, $sMode );
+	
+		$sPrfoession = $this->m_CharacterData->{ 'profession' };
+		for( $i = 0; $i < 2; $i++ )
+		{
+			// Calculate Toughness to Armor
+			$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::ARMOR ] += $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::TOUGHNESS ];
+			
+			// Check for High/Med/Low HP
+			switch( $sPrfoession )
+			{
+				case 'Warrior':		case 'Necromancer':
+					$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::HEALTH ] += BaseAttributes::HealthHigh;
+				break;
+				
+				case 'Engineer':	case 'Ranger':		case 'Revenant':	case 'Mesmer':
+					$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::HEALTH ] += BaseAttributes::HealthMid;
+				break;
+
+				case 'Guardian':	case 'Elementalist':	case 'Thief':
+					$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::HEALTH ] += BaseAttributes::HealthLow;
+				break;
+			}
+			
+			// Calculate Vitality to  HP
+			$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::HEALTH ] += ( 10 * $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::VITALITY ] );
+			
+			// Calculate Precision to Crit Chance
+			$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::CRITCHANCE ] += ( $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::PRECISION ] - 916 ) / 21;
+			
+			// Calculate Ferocity to Crit Damage
+			$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::CRITDAMAGE ] += $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::FEROCITY ] / 15;
+		}
+		
+		for( $i = 0; $i < 2; $i++ )
+		{
+		echo 'Power: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::POWER ] . ' <Br> ' .
+				'Toughness: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::TOUGHNESS ] . ' <Br>' .
+				'Vitality: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::VITALITY ] . ' <Br> ' .
+				'Precision: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::PRECISION ] . ' <Br> ' .
+				'Health: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::HEALTH ] . ' <Br> ' .
+				'Armor: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::ARMOR ] . ' <Br> ' .
+				'Ferocity: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::FEROCITY ] . ' <Br>' .
+				'CondiDamage: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::CONDIDAMAGE ] . ' <Br> ' .
+				'HealPower: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::HEALPOWER ] . ' <Br>' .
+				'AgonyResist: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::AGONYRESIST ] . ' <Br>' .
+				'CritChance: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::CRITCHANCE ] . ' <Br>' .
+				'CriDamage: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::CRITDAMAGE ] . ' <Br>' .
+				'CondiDuration: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::CONDIDURA ] . ' <Br>' .
+				'BoonDuration: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::BOONDURA ] . ' <Br><br><br>';
+		}
+	}
+
+	private	function	AddUpgradeComponent( $eType, $eMinIndex, $eMaxIndex, $set, $sMode )
+	{
+		$aUpgradeCount = Array();
+		$aUpgradeData = Array();
+		$aItem	=	&$this->m_Equipments[ $eType ];
+		
+		for( $i = $eMinIndex; $i < $eMaxIndex; $i++ )
+		{
+			if( isset( $aItem[ $i ]->{ 'name' } ) )
+			{
+				$matched = true;
+				for( $j = 0; $j < count( $aUpgradeCount ); $j++ )
+				{
+					if( $aItem[ $i ]->{ 'id' } != $aUpgradeCount[ $j ]->{ 'id' } )
+					{
+						$matched = false;
+					}
+					else
+					{
+						$matched = true;
+						$aUpgradeCount[ $j ]->{ 'count' } += 1;
+						break;
+					}
+				}
+
+				if( !$matched || count( $aUpgradeCount ) < 1 )
+				{
+					array_push( $aUpgradeData, $aItem[ $i ] );
+					array_push
+					(
+						$aUpgradeCount,
+						json_decode( '{"id": ' . $aItem[ $i ]->{ 'id' } . ',"count": ' . 1 . '}' )
+					);
+				}
+			}
+		}
+
+		for( $i = 0; $i < count( $aUpgradeCount ); $i++ )
+		{
+			if( isset( $aUpgradeData[ $i ]->{ 'details' }->{ 'bonuses' } ) )
+			{
+				$this->UpgradeRuneRepair( $aUpgradeData[ $i ], $aUpgradeCount[ $i ]->{ 'count' } );
+				$this->AddEquipmentToStats( $aUpgradeData[ $i ], $set, $sMode );
+			}
+			else if( isset( $aUpgradeData[ $i ]->{ 'details' }->{ 'infix_upgrade' }->{ 'buff' } ) )
+			{
+				$this->UpgradaeJewelRepair( $aUpgradeData[ $i ] );
+				
+				for( $j = 0; $j < $aUpgradeCount[ $i ]->{ 'count' }; $j++ )
+				{
+					$this->AddEquipmentToStats( $aUpgradeData[ $i ], $set, $sMode );
+				}
+			}
+		}
+	}
+	
+	private	function	UpgradaeJewelRepair( &$aJewel )
+	{
+		$sStats = &$aJewel->{ 'details' }->{ 'infix_upgrade' }->{ 'attributes' };
+		
+		if( is_null( $sStats[ 0 ] ) )
+		{
+			$sText = explode
+			(
+				"\n",
+				$aJewel->{ 'details' }->{ 'infix_upgrade' }->{ 'buff' }->{ 'description' }
+			);
+
+			switch( $aJewel->{ 'name' } )
+			{
+				case 'Resilient WvW Infusion':
+				case 'Healing WvW Infusion':
+				case 'Vital WvW Infusion':
+				case 'Precise WvW Infusion':
+				case 'Mighty WvW Infusion':
+				case 'Malign WvW Infusion':
+					if( isset( $sText[ 1 ] ) ){	unset( $sText[ 1 ] );	}
+				break;
+				
+				default:break;
+			}
+
+			for( $i = 0; $i < count( $sText ); $i++ )
+			{
+				array_push
+				(
+					$sStats,
+					json_decode
+					(
+						'{"attribute": "'
+						. str_replace( '+ ', '', preg_replace( '/[0-9]+/', '', $sText[ $i ] ) )
+						. '","modifier": '
+						. intval( preg_replace( '/[^0-9]+/', '', $sText[ $i ] ), 10 )
+						. '}'
+					)
+				);
+			}
+		}
+	}
+	
+	private	function	UpgradeRuneRepair( &$aRune, $iNumBonuses )
+	{
+		$sStats = &$aRune->{ 'details' }->{ 'infix_upgrade' }->{ 'attributes' };
+		$sBonuses = $aRune->{ 'details' }->{ 'bonuses' };
+		
+		for( $i = 0; $i < $iNumBonuses; $i++ )
+		{
+			$sText = explode
+			(
+				' ',
+				$sBonuses[ $i ]
+			);
+			
+			if( count( $sText ) < 3 )
+			{
+				$sModifier	= intval( preg_replace( '/[^0-9]+/', '', $sText[ 0 ] ), 10 );
+				$sAttr		= $sText[ 1 ];
+				
+				if
+				(
+					$sAttr == 'Power'	|| $sAttr == 'Toughness'	|| $sAttr == 'Vitality'	||
+					$sAttr == 'Precision'	|| $sAttr == 'Ferocity'		|| $sAttr == 'Healing'	||
+					$sAttr == 'CritDamage'	|| $sAttr == 'ConditionDamage'
+				)
+				{
+					array_push
+					(
+						$sStats, 
+						json_decode( '{"attribute": "' . $sAttr . '","modifier": ' . $sModifier . '}' )
+					);
+				}
+			}
+		}
+	}
+	
+	private	function	AscendedTrinketRepair( &$aTrinket )
+	{
+		if( $aTrinket->{ 'rarity' } == 'Ascended' )
+		{
+			$sAStatMain = &$aTrinket->{ 'details' }->{ 'infix_upgrade' }->{ 'attributes' };
+			$sAStats = explode
+			(
+				"\n",
+				$aTrinket->{ 'details' }->{ 'infix_upgrade' }->{ 'buff' }->{ 'description' }
+			);
+			
+			$sBStatValues;
+			$sBStatAttribute;
+			for( $i = 0; $i < count( $sAStats ); $i++ )
+			{
+				$sBStatAttribute[ $i ] = str_replace( '+ ', '', preg_replace( '/[0-9]+/', '', $sAStats[ $i ] ) );
+				$sBStatValues[ $i ] = intval( preg_replace( '/[^0-9]+/', '', $sAStats[ $i ] ), 10 );
+			}
+
+			for( $i = 0; $i < count( $sBStatAttribute ); $i++ )
+			{
+				$match = false;
+				for( $j = 0; $j < count( $sAStatMain ); $j++ )
+				{
+					if( $sAStatMain[ $i ]->{ 'attribute' } == 'CritDamage' ){ $sAStatMain[ $i ]->{ 'attribute' } = 'Ferocity'; }
+					if( $sBStatAttribute[ $j ] != $sAStatMain[ $i ]->{ 'attribute' } ){		$match = false;		}	
+					else
+					{
+						$match = true;
+						$iIndex = $j;
+						break;
+					}
+				}
+				
+				if( !$match )
+				{
+					array_push
+					(
+						$sAStatMain,
+						json_decode( '{"attribute": "' . $sBStatAttribute[ $i ] . '","modifier": ' . $sBStatValues[ $i ] . '}' )
+					);
+				}
+				else
+				{
+					$sAStatMain[ $iIndex ]->{ 'modifier' } += $sBStatValues[ $i ];
+				}
+			}
+		}
+	}
 //=========================================================================================
-//	Request functions
+//	Functions
 //=========================================================================================
+	public	function	AddAttribute( $sAttribute, $iValue, $set, $sMode )
+	{
+		if( isset( $sAttribute ) && $iValue > 0 )
+		{
+			$eAttr = EAttribute::MAGICFIND;
+			switch( $sAttribute )
+			{
+				case 'Power':		$eAttr = EAttribute::POWER;	break;
+				case 'Toughness':	$eAttr = EAttribute::TOUGHNESS;	break;
+				case 'Vitality':	$eAttr = EAttribute::VITALITY;	break;
+				case 'Precision':	$eAttr = EAttribute::PRECISION;	break;
+				
+				case 'Armor':		$eAttr = EAttribute::ARMOR;	break;
+				
+				case 'Ferocity':
+				case 'CritDamage':	$eAttr = EAttribute::FEROCITY;	break;
+
+				case 'Condition Damage':
+				case 'ConditionDamage':	$eAttr = EAttribute::CONDIDAMAGE;	break;
+				
+				case 'Healing':		$eAttr = EAttribute::HEALPOWER;		break;
+				
+				case 'AgonyResist':	$eAttr = EAttribute::AGONYRESIST;	break;
+				
+				default:break;
+			}
+			
+			if( $set >= 2 )
+			{
+				$this->m_CharacterAttri[ $sMode ][ 0 ][ $eAttr ] += $iValue;
+				$this->m_CharacterAttri[ $sMode ][ 1 ][ $eAttr ] += $iValue;
+			} else { $this->m_CharacterAttri[ $sMode ][ $set ][ $eAttr ] += $iValue; }
+		}
+	}
+	
+	public	function	AddEquipmentToStats( &$aEquipment, $set, $sMode )
+	{
+		$aDetials = $aEquipment->{ 'details' };
+		if( !is_null( $aDetials->{ 'defense' } ) )
+		{
+			$this->AddAttribute( 'Armor', $aDetials->{ 'defense' }, $set, $sMode );
+		}
+		
+		$aAttr = $aDetials->{ 'infix_upgrade' }->{ 'attributes' };
+		if( !is_null( $aAttr ) )
+		{
+			for( $j = 0; $j < count( $aAttr ); $j++ )
+			{
+				if( $aAttr[ $j ]->{ 'attribute' } == 'CritDamage' )
+				{
+					$aAttr[ $j ]->{ 'attribute' } = 'Ferocity';
+				}
+				$this->AddAttribute( $aAttr[ $j ]->{ 'attribute' }, $aAttr[ $j ]->{ 'modifier' }, $set, $sMode );
+			}
+		}
+	}
+	
 	public	function	SetCharacterData( $sCharacterName, $sMode, $sAPIKey )
 	{
 		// Get Character Data
@@ -328,5 +672,8 @@ class CCharacter extends CGW2API
 		
 		// Specialization and Trait Data based on wvw/pve/pvp
 		$this->SetBuildData( $sMode );
+		
+		// Calculate character attributes
+		$this->CalculateCharacterAttributes( $sMode );
 	}
 }
