@@ -402,24 +402,6 @@ class CCharacter extends CGW2API
 			// Calculate Ferocity to Crit Damage
 			$this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::CRITDAMAGE ] += $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::FEROCITY ] / 15;
 		}
-		
-		for( $i = 0; $i < 2; $i++ )
-		{
-		echo 'Power: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::POWER ] . ' <Br> ' .
-				'Toughness: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::TOUGHNESS ] . ' <Br>' .
-				'Vitality: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::VITALITY ] . ' <Br> ' .
-				'Precision: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::PRECISION ] . ' <Br> ' .
-				'Health: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::HEALTH ] . ' <Br> ' .
-				'Armor: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::ARMOR ] . ' <Br> ' .
-				'Ferocity: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::FEROCITY ] . ' <Br>' .
-				'CondiDamage: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::CONDIDAMAGE ] . ' <Br> ' .
-				'HealPower: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::HEALPOWER ] . ' <Br>' .
-				'AgonyResist: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::AGONYRESIST ] . ' <Br>' .
-				'CritChance: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::CRITCHANCE ] . ' <Br>' .
-				'CriDamage: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::CRITDAMAGE ] . ' <Br>' .
-				'CondiDuration: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::CONDIDURA ] . ' <Br>' .
-				'BoonDuration: '. $this->m_CharacterAttri[ $sMode ][ $i ][ EAttribute::BOONDURA ] . ' <Br><br><br>';
-		}
 	}
 
 	private	function	AddUpgradeComponent( $eType, $eMinIndex, $eMaxIndex, $set, $sMode )
