@@ -58,7 +58,7 @@ class CCache
 		else
 		{
 			echo '0: Cache could not be written. <br/>';
-			echo 'PARAM_1 : $sFileName: ' . isset( $sFileName ) . '<br/>';
+			echo 'PARAM_1 : $sFileName: ' . $sFileName . '<br/>';
 		}
 	}
 	
