@@ -282,7 +282,10 @@ class CCharacter extends CGW2API
 		$aSpecIDs = Array();
 		for( $i = 0; $i < count( $this->m_CharacterData->{ 'specializations' }->{ $SpecMode } ); $i++ )
 		{
-			array_push( $aSpecIDs, $this->m_CharacterData->{ 'specializations' }->{ $SpecMode }[ $i ]->{ 'id' } );
+			if( !is_null( $this->m_CharacterData->{ 'specializations' }->{ $SpecMode }[ $i ] ) )
+			{
+				array_push( $aSpecIDs, $this->m_CharacterData->{ 'specializations' }->{ $SpecMode }[ $i ]->{ 'id' } );
+			}
 		}
 		// Request for specialization data
 		$aSpecIDs = $this->GetContentBatch( $aSpecIDs, EURI::SPECIALIZATIONS );
@@ -541,7 +544,7 @@ class CCharacter extends CGW2API
 	
 	private	function	AscendedTrinketRepair( &$aTrinket )
 	{
-		if( $aTrinket->{ 'rarity' } == 'Ascended' )
+		if( $aTrinket->{ 'rarity' } == 'Ascended' && isset( $aTrinket->{ 'details' }->{ 'infix_upgrade' }->{ 'attributes' } ) )
 		{
 			$sAStatMain = &$aTrinket->{ 'details' }->{ 'infix_upgrade' }->{ 'attributes' };
 			$sAStats = explode
