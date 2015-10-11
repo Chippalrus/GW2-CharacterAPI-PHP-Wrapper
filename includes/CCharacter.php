@@ -295,30 +295,33 @@ class CCharacter extends CGW2API
 		{
 			// decode the content and store it
 			$this->m_Specializations[ $i ][ ETrait::_S ] = json_decode( $aSpecIDs[ $i ] );
-			
-			$aTraitIDs = Array();
-			// Loop through max amount of traits
-			for( $j = ETrait::_0; $j < ETrait::MAX; $j++ )
+				
+			if( isset( $this->m_Specializations[ $i ][ ETrait::_S ]->{ 'id' } ) )
 			{
-				if( $j < ETrait::_3 )
+				$aTraitIDs = Array();
+				// Loop through max amount of traits
+				for( $j = ETrait::_0; $j < ETrait::MAX; $j++ )
 				{
-					// Get the minor trait IDs
-					array_push( $aTraitIDs, $this->m_Specializations[ $i ][ ETrait::_S ]->{ 'minor_traits' }[ $j ] );
+					if( $j < ETrait::_3 )
+					{
+						// Get the minor trait IDs
+						array_push( $aTraitIDs, $this->m_Specializations[ $i ][ ETrait::_S ]->{ 'minor_traits' }[ $j ] );
+					}
+					else
+					{
+						// Get the major trait IDs
+						array_push( $aTraitIDs, $this->m_Specializations[ $i ][ ETrait::_S ]->{ 'major_traits' }[ $j - 3 ] );
+					}
 				}
-				else
-				{
-					// Get the major trait IDs
-					array_push( $aTraitIDs, $this->m_Specializations[ $i ][ ETrait::_S ]->{ 'major_traits' }[ $j - 3 ] );
-				}
-			}
 
-			// Request for trait data
-			$aTraitIDs = $this->GetContentBatch( $aTraitIDs, EURI::TRAITS );
-			// Loop through max amount of traits ... again
-			for( $j = ETrait::_0; $j < ETrait::MAX; $j++ )
-			{
-				// Decode the content and store it
-				$this->m_Specializations[ $i ][ $j ] = json_decode( $aTraitIDs[ $j ] );
+				// Request for trait data
+				$aTraitIDs = $this->GetContentBatch( $aTraitIDs, EURI::TRAITS );
+				// Loop through max amount of traits ... again
+				for( $j = ETrait::_0; $j < ETrait::MAX; $j++ )
+				{
+					// Decode the content and store it
+					$this->m_Specializations[ $i ][ $j ] = json_decode( $aTraitIDs[ $j ] );
+				}
 			}
 		}
 	}
