@@ -5,10 +5,10 @@
 # Description
 This is just the *backend* of the project for a plugin that I have built ( http://chippalrus.ca/Cennette/ ) . This wrapper has a lack of error checking. This is bad. ༼ ◕д◕ ༽ I'm a terrible programmer.
 
-༼ ◕_◕ ༽ I am aware of what is currently avaliable, however, I do not want to include methods I wont be using from other wrappers. 
+༼ ◕_◕ ༽ I am aware of what is currently avaliable, but, I do not want to include methods I wont be using from other wrappers. 
  
- ˶⚈Ɛ⚈˵ Other wrappers provide a better framework, however, I disliked what was available at the time, so, I made my own. My focus was to share my character's Builds/Equipment via a single URL without need of registering account and to display information in a compact manner without needless information.
-
+Other wrappers provide a better framework, however, I disliked what was available at the time, so, I made my own. ˶⚈Ɛ⚈˵ My focus was to share my character's Builds/Equipment via a single URL without need of registering account and to display information in a compact manner without needless information.
+ 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 ## (ﾉﾟ▽ﾟ)ﾉ︵ Caching
 - Requested information is cached automatically with no duplication.
