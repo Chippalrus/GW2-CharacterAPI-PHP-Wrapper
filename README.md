@@ -3,9 +3,9 @@
 - Example of the wrapper used for a plugin: http://chippalrus.ca/Cennette/
 
 # Description
-I don't code in PHP, therefore, this is likely managed poorly and inconsistant. ༼ ◕д◕ ༽
+This wrapper has a lack of error checking. ༼ ◕д◕ ༽
 
-I disliked GW2 web-apps that were available at the time, so, I made my own. My focus was to share my character's Builds/Equipment via a single URL without need of registering account and to display information in a compact manner without needless information. ༼ ◕_◕ ༽ 
+Other wrappers provide a better framework, however, I disliked what was available at the time, so, I made my own. My focus was to share my character's Builds/Equipment via a single URL without need of registering account and to display information in a compact manner without needless information. ༼ ◕_◕ ༽ 
 
 This is just the *backend* of the project that I have built. I am aware of what is currently avaliable, however, I do not want to include methods I wont be using from other wrappers. ˶⚈Ɛ⚈˵
 
