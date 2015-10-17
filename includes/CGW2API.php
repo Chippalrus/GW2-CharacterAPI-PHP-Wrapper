@@ -126,7 +126,7 @@ class CGW2API extends CCache
 					$this->SendRequest( $sToken, EURI::CHARACTERS . '/' . $sName . EURI::ACCESS_TOKEN );
 					// Should have something here for uhhh.... if it returns valid data
 					$this->WriteCache( $sName, $this->m_Content[ 0 ], EURI::CHARACTERS );
-				} else { echo '0: Token is empty.' }
+				} else { echo '0: Token is empty.'; }
 			}
 			else	
 			{
