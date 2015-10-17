@@ -3,11 +3,11 @@
 - Example of the wrapper used for a plugin: http://chippalrus.ca/Cennette/
 
 # Description
-This wrapper has a lack of error checking. This is bad. ༼ ◕д◕ ༽ I'm a terrible programmer.
+This is just the *backend* of the project for a plugin that I have built ( http://chippalrus.ca/Cennette/ ) . This wrapper has a lack of error checking. This is bad. ༼ ◕д◕ ༽ I'm a terrible programmer.
 
-Other wrappers provide a better framework, however, I disliked what was available at the time, so, I made my own. My focus was to share my character's Builds/Equipment via a single URL without need of registering account and to display information in a compact manner without needless information. ༼ ◕_◕ ༽ 
-
-This is just the *backend* of the project that I have built. I am aware of what is currently avaliable, however, I do not want to include methods I wont be using from other wrappers. ˶⚈Ɛ⚈˵
+༼ ◕_◕ ༽ I am aware of what is currently avaliable, however, I do not want to include methods I wont be using from other wrappers. 
+ 
+ ˶⚈Ɛ⚈˵ Other wrappers provide a better framework, however, I disliked what was available at the time, so, I made my own. My focus was to share my character's Builds/Equipment via a single URL without need of registering account and to display information in a compact manner without needless information.
 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 ## (ﾉﾟ▽ﾟ)ﾉ︵ Caching
