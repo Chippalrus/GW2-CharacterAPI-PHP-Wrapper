@@ -3,7 +3,7 @@
 - Example of the wrapper used for a plugin: http://chippalrus.ca/Cennette/
 
 # Description
-This wrapper has a lack of error checking. ༼ ◕д◕ ༽
+This wrapper has a lack of error checking. This is bad. ༼ ◕д◕ ༽ I'm a terrible programmer.
 
 Other wrappers provide a better framework, however, I disliked what was available at the time, so, I made my own. My focus was to share my character's Builds/Equipment via a single URL without need of registering account and to display information in a compact manner without needless information. ༼ ◕_◕ ༽ 
 
