@@ -5,7 +5,7 @@
 # Description
 This is just the *backend* of the project for a plugin that I have built ( http://chippalrus.ca/Cennette/ ) . This wrapper has a lack of error checking. This is bad. ༼ ◕д◕ ༽ I'm a terrible programmer.
 
-༼ ◕_◕ ༽ Other API wrappers provide a better framework, but, I do not want to include methods I wont be using from other wrappers. 
+༼ ◕_◕ ༽ Other API wrappers provide a better framework, but, I do not want to include methods I wont be using. 
  
 I disliked what GW2API web-apps was available at the time, so, I made my own. My focus was to share my character's Builds/Equipment via a single URL without need of registering account and to display information in a compact manner without needless information. ˶⚈Ɛ⚈˵ 
  
